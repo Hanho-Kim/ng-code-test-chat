@@ -1,27 +1,39 @@
-# AngularChat
+**Test Environment**
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
+```bash
+Angular CLI: 10.2.4
+Node: 12.16.3
+```
 
-## Development server
+**Run Testset**
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```bash
+ng serve
+```
 
-## Code scaffolding
+**Test**
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+We have a simple chat app (path: /chatroom) like Instagram DM.
 
-## Build
+In this app, there are two users, “ME(you)” and “RYAN(counterpart)”. 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+“RYAN” sends a new message every 10 seconds, and you(“ME”) can send a new message by typing text and clicking the send button.
 
-## Running unit tests
+When any new message has been added, `onNewMessageAddedCallback()` inside `chatroom.component.ts` is called with a new message object.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Now, we want to upgrade this app’s user interface, just like Instagram DM or WhatsApp:
 
-## Running end-to-end tests
+- **Rule 1:** If consecutive messages are from the same sender, display only one username at the top of the first message.
+- **Rule 2:** If consecutive messages are having the same minute time, display only one minute at the bottom of the last message.
+- **Rule 2 has priority over Rule 1 :** If consecutive messages are from the same sender but having different minute time, display them seperately.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+See the attached image below:
+![[Output Example]](https://ik.imagekit.io/gdmmclm0lkd/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-01-13_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_9.05.29_uVluDRbvd1D.png?ik-sdk-version=javascript-1.4.3&updatedAt=1642075545452)
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+**Constraints**
+
+- If you click the “load previous message” button, 10 past messages would be loaded and they should follow the same rule as well. (`loadPreviousMessages()` can be called only once)
+- You can change any codes except for the `chat.service.ts` .
+- Do not loop through the whole message array every time.
+- Changing design/css is not required.
