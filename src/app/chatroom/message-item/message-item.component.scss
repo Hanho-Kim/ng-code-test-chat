@@ -1,0 +1,24 @@
+.message-item{
+  position:relative;
+  display:block;
+  padding:10px;
+}
+
+
+.message-item .text{
+  position:relative;
+  display:inline-block;
+  background: rgb(213, 225, 246);
+  padding:10px 15px;
+  border-radius: 5px;
+}
+
+.user{
+  font-size:12px;
+  color:rgb(120,120,120);
+}
+.timestamp{
+  font-size:12px;
+  margin-left:2px;
+  color:rgb(120,120,120);
+}
