@@ -19,9 +19,13 @@ https://stackblitz.com/edit/angular-ivy-rw41sd?file=src/app/app.component.ts
 **Test Explain**
 
 We have a simple chat app like Instagram DM.
+
 In this app, there are two users, “ME(you)” and “RYAN(counterpart)”. 
+
 “RYAN” sends a new message every 10 seconds, and you(“ME”) can send a new message by typing text and clicking the send button.
+
 When any new message has been added, `onNewMessageAddedCallback()` inside `chatroom.component.ts` is called with a new message object.
+
 Now, we want to upgrade this app’s user experience, just like Instagram DM or WhatsApp:
 
 - **Rule 1:** If consecutive messages are from the same sender, display only one username at the top of the first message.
