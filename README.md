@@ -1,4 +1,4 @@
-**Test Environment**
+**Environment**
 
 ```bash
 Angular CLI: 10.2.4
@@ -11,9 +11,9 @@ Node: 12.16.3
 ng serve
 ```
 
-**Test**
+**Test Explain**
 
-We have a simple chat app (path: /chatroom) like Instagram DM.
+We have a simple chat app like Instagram DM.
 
 In this app, there are two users, “ME(you)” and “RYAN(counterpart)”. 
 
