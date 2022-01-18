@@ -3,6 +3,7 @@ import * as Utils from './utils';
 
 import { BehaviorSubject, Observable} from 'rxjs';
 import {uuid} from "./utils";
+import { Message } from '../model/message.model';
 
 @Injectable({
   providedIn: 'root'
@@ -83,7 +84,7 @@ export class ChatService {
   }
 
   send({text, user}){
-    let messageObject = {
+    let messageObject: Message = {
       id : Utils.uuid(),
       timestamp : Date.now(),
       text, user
