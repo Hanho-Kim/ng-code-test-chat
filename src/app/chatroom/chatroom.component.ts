@@ -1,5 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import { Message } from '../model/message.model';
 import {ChatService} from "../_services/chat.service";
+import { StateManagementService } from '../_services/state.management.service';
 
 @Component({
   selector: 'app-chatroom',
@@ -8,12 +10,15 @@ import {ChatService} from "../_services/chat.service";
 })
 export class ChatroomComponent implements OnInit {
 
-  user : string = 'ME';
-  messages : Array<any> = [];
+  user: string = 'ME';
+  messages: Array<Message> = [];
 
   @ViewChild('Input') input:any;
 
-  constructor(private chat:ChatService) { }
+  constructor(
+    private chat: ChatService,
+    private stateManagementService: StateManagementService
+  ) { }
 
   ngOnInit(): void {
     this.chat.onNewMessageAdded().subscribe((new_message)=>{
@@ -24,6 +29,7 @@ export class ChatroomComponent implements OnInit {
   loadPreviousMessages(){
     const previousMessages = this.chat.loadPrevious();
     this.messages = previousMessages.concat(this.messages);
+    this.stateManagementService.chatting$.next(this.messages);
   }
 
   send(){
@@ -36,9 +42,7 @@ export class ChatroomComponent implements OnInit {
   }
 
   onNewMessageAddedCallback(new_message){
-    console.log('new message loaded', new_message);
     this.messages.push(new_message);
+    this.stateManagementService.chatting$.next(this.messages);
   }
-
-
 }
