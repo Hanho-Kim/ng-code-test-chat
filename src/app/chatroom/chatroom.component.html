@@ -1,7 +1,7 @@
 <p>Simple Chat</p>
 <div class="chatroom-view">
   <button (click)="loadPreviousMessages()">Load Previous Messages</button>
-  <message-item></message-item>
+  <message-item *ngFor="let message of messages" [message]="message"></message-item>
 </div>
 <div class="chatroom-toolbar">
   <input #Input class="chatroom-input"/>
