@@ -15,12 +15,12 @@ export class MessageItemComponent implements OnInit {
     private stateManagementService: StateManagementService
   ) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.stateManagementService.chatting$
       .subscribe((response: Message[]) => {
         this.chatting = response;
         let firstChat = this.chatting[0];
-        
+
         for (let i = 1; i < this.chatting.length; i++) {
           if(firstChat.user == this.chatting[i].user || this.chatting[i].user == "") {
             let min1 = new Date(this.chatting[i-1].timestamp).getMinutes();
