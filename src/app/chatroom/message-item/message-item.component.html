@@ -1,5 +1,5 @@
-<div class="message-item" *ngFor="let message of chatting">
-  <div class="user">{{message.user}}</div>
+<div class="message-item">
+  <div class="user" [innerHTML]="message.user"></div>
   <span class="text">{{message.text}}</span>
-  <span class="timestamp" *ngIf="message.timestamp != undefined">{{message.timestamp | dates}}</span>
+  <span class="timestamp" [innerHTML]="message.timestamp | dates"></span>
 </div>

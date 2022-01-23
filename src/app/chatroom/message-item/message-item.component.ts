@@ -1,38 +1,49 @@
-import {Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Message } from 'src/app/model/message.model';
 import { StateManagementService } from 'src/app/_services/state.management.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'message-item',
   templateUrl: './message-item.component.html',
   styleUrls: ['./message-item.component.scss']
 })
-export class MessageItemComponent implements OnInit {
+export class MessageItemComponent implements OnInit, AfterViewInit, OnChanges {
 
-  chatting: Array<Message> = [];
+  @Input() message: Message;
+  currentChanges: Message;
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.currentChanges = changes.message.currentValue;
+  }
 
   constructor(
-    private stateManagementService: StateManagementService
+    private stateManagementService: StateManagementService,
+    private elRef: ElementRef
   ) { }
 
   ngOnInit(): void {
-    this.stateManagementService.chatting$
-      .subscribe((response: Message[]) => {
-        this.chatting = response;
-        let firstChat = this.chatting[0];
+  }
 
-        for (let i = 1; i < this.chatting.length; i++) {
-          if(firstChat.user == this.chatting[i].user || this.chatting[i].user == "") {
-            let min1 = new Date(this.chatting[i-1].timestamp).getMinutes();
-            let min2 = new Date(this.chatting[i].timestamp).getMinutes();
-            if( min1 == min2 || min1 == undefined ) {
-              this.chatting[i].user = "";
-              delete(this.chatting[i-1].timestamp)
-            }
-          } else {
-            firstChat = this.chatting[i];
+  ngAfterViewInit() {
+    this.stateManagementService.previousMessage$
+    .pipe(take(1))
+    .subscribe((response: Message) => {
+      if(response != undefined) {
+        if(this.currentChanges.user === response.user) {
+          // Reset User If message was sent by same user.
+          this.elRef.nativeElement.querySelector('.user').innerHTML = "";
+
+          // Checking time while same user
+          let currentTimestamp = this.elRef.nativeElement.querySelector('.timestamp');
+          let previousTimestamp = this.elRef.nativeElement.previousSibling.querySelector('.timestamp');
+
+          if(previousTimestamp != null && previousTimestamp.innerHTML == null || currentTimestamp.innerHTML == previousTimestamp.innerHTML) {
+            this.elRef.nativeElement.previousSibling.querySelector('.timestamp').innerHTML = "";
           }
         }
-      });
+      }
+      this.stateManagementService.previousMessage$.next(this.currentChanges);
+    });
   }
 }
