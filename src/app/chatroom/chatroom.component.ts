@@ -16,23 +16,21 @@ export class ChatroomComponent implements OnInit {
   @ViewChild('Input') input:any;
 
   constructor(
-    private chat: ChatService,
-    private stateManagementService: StateManagementService
+    private chat: ChatService
   ) { }
 
   ngOnInit(): void {
-    this.chat.onNewMessageAdded().subscribe((new_message)=>{
+    this.chat.onNewMessageAdded().subscribe((new_message)=> {
       this.onNewMessageAddedCallback(new_message);
     })
   }
 
-  loadPreviousMessages(){
+  loadPreviousMessages() {
     const previousMessages = this.chat.loadPrevious();
-    this.messages = previousMessages.concat(this.messages);
-    this.stateManagementService.chatting$.next(this.messages);
+    this.messages = [...previousMessages, ...this.messages];
   }
 
-  send(){
+  send() {
     const text = this.input.nativeElement.value;
     this.input.nativeElement.value = '';
     this.chat.send({
@@ -41,8 +39,7 @@ export class ChatroomComponent implements OnInit {
     });
   }
 
-  onNewMessageAddedCallback(new_message){
+  onNewMessageAddedCallback(new_message) {
     this.messages.push(new_message);
-    this.stateManagementService.chatting$.next(this.messages);
   }
 }

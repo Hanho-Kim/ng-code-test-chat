@@ -8,7 +8,6 @@ import { Message } from '../model/message.model';
 export class StateManagementService {
 
   public previousMessage$: BehaviorSubject<Message> = new BehaviorSubject<Message>(undefined);
-  public chatting$: BehaviorSubject<Array<Message>> = new BehaviorSubject<Array<Message>>([]);
 
   constructor() { }
 }
